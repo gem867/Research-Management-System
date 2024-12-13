@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+{% extends "index.html" %}
+{% load static %}
+
+
+{% block main_content %}
+
+<div class="container-flex text-center justify-content-center align-items-center" style="margin-left: 30px; padding-top: 10px; padding-bottom: 20px; margin-top: 10px; vertical-align: middle;">
+<div class="row justify-content-center align-middle" style="margin-top: 10px; height: 60px;">
+    <div class="col-md-4 text-align" style="background-color: rgb(106, 136, 158);">
+        <h5 style="margin-top: 15px;">Register New Author</h5>
+    </div>
+
+    <div class="col-md-8">
+        <h5>Search Authors</h5>
+    </div>
+</div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="container" style="overflow-y: auto; height: 400px; background: rgb(207, 211, 237);">
+                <form class="d-flex" action="/authors/add" method="POST">
+                    {% csrf_token %}
+                    <table class="table" style="margin-top: 20px;">
+                        <tr>
+                            <td style="text-align: left; vertical-align: middle; padding-left: 15px;">Name: </td>
+                            <td><input type="text" class="form-control" name="author_name"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left; vertical-align: middle; padding-left: 15px;">Study Title: </td>
+                            <td><input type="text" class="form-control" name="author_title"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left; vertical-align: middle; padding-left: 15px;">Category/Type: </td>
+                            <td>
+                                <select class="form-control" name="author_type">
+                                    <option value="" disabled selected>Select category/type</option>
+                                    <option value="FACULTY">Faculty</option>
+                                    <option value="ADMIN">Admin</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left; vertical-align: middle; padding-left: 15px;">Dept/Office: </td>
+                            <td><input type="text" class="form-control" name="author_department"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left; vertical-align: middle; padding-left: 15px;">Employee Number: </td>
+                            <td><input type="text" class="form-control" name="employee_number"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><button class="btn btn-primary" type="submit">Save</button> </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+        
+        
+
+    <div class="col-md-8">
+        <div class="row">
+            <nav class="navbar bg-body-light">
+                <div class="container-fluid justify-content-center align-items-center">
+                    <form class="d-flex" role="search" action="{% url 'authors' %}" method="POST">
+                        {% csrf_token %}
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query" value="{{ query }}">
+                        <button class="btn btn-outline-primary" type="submit">Search</button>
+                    </form>
+                </div>
+            </nav>
+        </div>
+        
+
+        <div class="row" style="margin-top: 20px;">
+             <p>{{ authors|length }} authors subscribed.</p> 
+        </div>
+        <div class="row" style="margin-top: 20px;">
+            <div class="container" style="overflow-y: auto; height: 400px;">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <td>Author ID</td>
+                            <td>Name</td>
+                            <td>Study Title</td>
+                            <td>Category/Type</td>
+                            <td>Dept/Office</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for author in authors %}
+                            <tr>
+                                <td>{{author.id}}</td>
+                                <td>{{author.author_name}}</td>
+                                <td>{{author.author_title}}</td>
+                                <td>{{author.author_type}}</td>
+                                <td>{{author.author_department}}</td>
+                                <td>
+                                    <a href="{% url 'edit_author' author.id %}" class="btn btn-warning" style="margin-top: 5px;">Edit</a>
+                                    <a href="{% url 'delete_author' author.id %}" class="btn btn-danger" style="margin-top: 5px;">Delete</a> <!-- Link to the confirmation page -->
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    
+                    
+                </table>
+            </div>
+        </div>
+    </div>
+
+    </div> 
+</div>
+{% endblock %}

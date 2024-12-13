@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% extends "index.html" %}
+{% load static %}
+
+{% block main_content %}
+<div class="container" style="margin-top: 20px;">
+    <h2>{{ study.title }}</h2>
+    <p><strong>Description:</strong> {{ study.description }}</p>
+    <p><strong>Abstract:</strong> {{ study.abstract }}</p>
+    <p><strong>Keywords:</strong> {{ study.keywords }}</p>
+    <p><strong>Status:</strong> {{ study.status }}</p>
+    <p><strong>Date Started:</strong> {{ study.date_started }}</p>
+    <p><strong>Researchers:</strong> {{ study.researchers }}</p>
+    {% if study.file %}
+    <p><strong>File:</strong> <a href="{{ study.file.url }}">Download</a></p>
+    {% else %}
+    <p><strong>File:</strong> No file uploaded</p>
+    {% endif %}
+    <a href="{% url 'edit_study' study.id %}" class="btn btn-warning btn-sm" style="margin-top: 10px;">Edit</a>
+    <a href="{% url 'delete_study' study.id %}" class="btn btn-danger btn-sm" style="margin-top: 10px;">Delete</a>
+</div>
+{% endblock %}
